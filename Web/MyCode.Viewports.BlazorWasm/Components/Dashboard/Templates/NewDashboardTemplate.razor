@@ -1,0 +1,35 @@
+﻿@using MyCode.Viewports.BlazorWasm.Services.Modal;
+@using MyCode.Viewports.BlazorWasm.Models
+@inject IModalService modalService
+<div class="new-dashboard-container">
+    <div class="title">
+        <button class="btn-outline-primary" @onclick="AddNewDashboardAsync" @onkeypress="AddNewDashboardAsync2">Add Tweets Viewport</button>
+    </div>
+</div>
+@functions {
+    /// <summary>
+    /// Creates a new modal, with the dashboard form needed to be filled out.
+    /// </summary>
+    /// <returns>A type of <see cref="RenderFragment"/>.</returns>
+    public RenderFragment NewDashboardForm() => builder =>
+    {
+        builder.OpenComponent(0, typeof(NewDashboardFormTemplate));
+        builder.CloseComponent();
+    };
+}
+@code {
+    /// <summary>
+    /// Method to display the new dashboard form as a modal.
+    /// </summary>
+    /// <param name="mouseEventArgs">An instance of <see cref="MouseEventArgs"/>.</param>
+    /// <returns>A type of <see cref="Task"/>.</returns>
+    public async Task AddNewDashboardAsync(MouseEventArgs mouseEventArgs)
+    {
+        await modalService.CreateAsync(new ModalModel("Add a New Viewport", NewDashboardForm(), "Add New Viewport"));
+    }
+
+    public async Task AddNewDashboardAsync2(KeyboardEventArgs keyboardEventArgs)
+    {
+        await modalService.CreateAsync(new ModalModel("Add a New Viewport", NewDashboardForm(), "Add New Viewport"));
+    }
+}
